@@ -4,7 +4,7 @@
 
 static int is_power_of_two(int n) { return n > 0 && (n & (n - 1)) == 0; }
 
-void global_sumA(double *result, int rank, int size, double my_value) {
+void global_sumA(double *result, int rank, int size, double my_value, double *time) {
   double t0, t1;
   double sum;
   int r;
@@ -32,13 +32,10 @@ void global_sumA(double *result, int rank, int size, double my_value) {
     *result = sum;
   }
   t1 = MPI_Wtime();
-
-  if (rank == 0) {
-    printf("global_sumA: elapsed = %e s\n", t1 - t0);
-  }
+  *time = t1 - t0;
 }
 
-void global_sumB(double *result, int rank, int size, double my_value) {
+void global_sumB(double *result, int rank, int size, double my_value, double *time) {
   double t0, t1;
   double sum = my_value;
   int d;
@@ -64,8 +61,5 @@ void global_sumB(double *result, int rank, int size, double my_value) {
   }
   *result = sum;
   t1 = MPI_Wtime();
-
-  if (rank == 0) {
-    printf("global_sumB: elapsed = %e s\n", t1 - t0);
-  }
+  *time = t1 - t0;
 }

@@ -7,6 +7,7 @@ static int is_power_of_two(int n) { return n > 0 && (n & (n - 1)) == 0; }
 int main(int argc, char **argv) {
   int rank, size;
   double my_value, sum;
+  double timeA, timeB;
 
   MPI_Init(&argc, &argv);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -21,11 +22,14 @@ int main(int argc, char **argv) {
 
   my_value = (double)rank;
 
-  global_sumA(&sum, rank, size, my_value);
-  printf("FINAL after global_sumA: Process %d has Sum = %f\n", rank, sum);
+  global_sumA(&sum, rank, size, my_value, &timeA);
+  global_sumB(&sum, rank, size, my_value, &timeB);
 
-  global_sumB(&sum, rank, size, my_value);
-  printf("FINAL after global_sumB: Process %d has Sum = %f\n", rank, sum);
+  if (rank == 0) {
+      printf("A,%d,%e\n", size, timeA);
+      printf("B,%d,%e\n", size, timeB);
+      fflush(stdout);
+  }
 
   MPI_Finalize();
   return 0;

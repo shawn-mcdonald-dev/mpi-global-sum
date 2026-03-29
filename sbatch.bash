@@ -16,9 +16,8 @@ module load mpip/3.5
 
 make clean all
 
+echo "method,np,time" > results.csv
+
 for n in 2 4 8 16; do
-  echo "========================================"
-  echo "MPI tasks (np) = ${n}"
-  echo "========================================"
-  srun -n "${n}" ./driver > "mpi_p${n}.out"
+  srun -n ${n} ./driver >> results.csv
 done
