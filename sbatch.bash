@@ -3,8 +3,7 @@
 #SBATCH --output=omp_p32.%j.out
 #SBATCH --partition=shared
 #SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --ntasks-per-node=32
+#SBATCH --ntasks-per-node=16
 #SBATCH --mem=20GB
 #SBATCH --account=ccu108
 #SBATCH --time=02:00:00
@@ -21,5 +20,5 @@ for n in 2 4 8 16; do
   echo "========================================"
   echo "MPI tasks (np) = ${n}"
   echo "========================================"
-  srun -n "${n}" ./driver > "omp_p${n}.out"
+  srun -n "${n}" ./driver > "mpi_p${n}.out"
 done
