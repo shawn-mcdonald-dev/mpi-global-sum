@@ -9,11 +9,12 @@
 #SBATCH --time=02:00:00
 
 module purge
+module load slurm
 module load cpu
 module load gcc/10.2.0
 module load openmpi/4.1.3
 
-make clean all
+make
 
 # Write CSV header
 echo "method,np,time" > results.csv
